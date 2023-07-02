@@ -11,13 +11,14 @@ function getpost(){
         document.body.innerHTML= output;
     },1000)
 }
+const userdet = async()=>{
 function createpost(post){
     return new Promise((res,rej)=>{
         setTimeout(()=>{
             posts.push(post);
             const err = false;
             if(!err){
-                res();
+                res('postpushed');
             }
             else{
                 rej('Error is there');
@@ -44,10 +45,12 @@ function updateuseractivity(){
     return new Promise((res,rej)=>{
         setTimeout(()=>{
             const dates = new Date();
-            console.log(`Last user activity updated at`,dates);
-            res();
+            res(`Last user activity updated at ${dates}`);
         },2000)
     })
 }
-Promise.all([createpost({title : 'username',body : 'newdateupdated'}),updateuseractivity()]);
-
+let [pst,usrdet]= await Promise.all([createpost({title : 'username',body : 'newdateupdated'}),updateuseractivity()]);
+return usrdet;
+}
+userdet().then(t=>console.log(t));
+console.log(posts);
